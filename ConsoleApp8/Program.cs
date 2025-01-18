@@ -6,76 +6,76 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp8
 {
-    class Journal
+    class Store
     {
-        public int EmployeesCount { get; private set; }
-        public Journal(int initialEmployees)
+        public double Area { get; private set; }
+        public Store(double area)
         {
-            if (initialEmployees < 0)
-                throw new ArgumentException("Кількість працівників не може бути від'ємною.");
+            if (area < 0)
+                throw new ArgumentException("Площа магазину не може бути від'ємною.");
 
-            EmployeesCount = initialEmployees;
+            Area = area;
         }
-        public static Journal operator +(Journal journal, int count)
+        public static Store operator +(Store store, double size)
         {
-            if (count < 0)
-                throw new ArgumentException("Число для додавання повинно бути невід'ємним.");
+            if (size < 0)
+                throw new ArgumentException("Розмір для збільшення площі не може бути від'ємним.");
 
-            return new Journal(journal.EmployeesCount + count);
+            return new Store(store.Area + size);
         }
-        public static Journal operator -(Journal journal, int count)
+        public static Store operator -(Store store, double size)
         {
-            if (count < 0)
-                throw new ArgumentException("Число для віднімання повинно бути невід'ємним.");
+            if (size < 0)
+                throw new ArgumentException("Розмір для зменшення площі не може бути від'ємним.");
 
-            if (journal.EmployeesCount - count < 0)
-                throw new InvalidOperationException("Кількість працівників не може бути від'ємною.");
+            if (store.Area - size < 0)
+                throw new InvalidOperationException("Площа магазину не може бути від'ємною.");
 
-            return new Journal(journal.EmployeesCount - count);
+            return new Store(store.Area - size);
         }
-        public static bool operator ==(Journal journal1, Journal journal2)
+        public static bool operator ==(Store store1, Store store2)
         {
-            if (ReferenceEquals(journal1, null) && ReferenceEquals(journal2, null))
+            if (ReferenceEquals(store1, null) && ReferenceEquals(store2, null))
                 return true;
 
-            if (ReferenceEquals(journal1, null) || ReferenceEquals(journal2, null))
+            if (ReferenceEquals(store1, null) || ReferenceEquals(store2, null))
                 return false;
 
-            return journal1.EmployeesCount == journal2.EmployeesCount;
+            return store1.Area == store2.Area;
         }
-        public static bool operator !=(Journal journal1, Journal journal2)
+        public static bool operator !=(Store store1, Store store2)
         {
-            return !(journal1 == journal2);
+            return !(store1 == store2);
         }
-        public static bool operator <(Journal journal1, Journal journal2)
+        public static bool operator <(Store store1, Store store2)
         {
-            if (ReferenceEquals(journal1, null) || ReferenceEquals(journal2, null))
+            if (ReferenceEquals(store1, null) || ReferenceEquals(store2, null))
                 throw new ArgumentNullException("Обидва об'єкти мають бути непустими.");
 
-            return journal1.EmployeesCount < journal2.EmployeesCount;
+            return store1.Area < store2.Area;
         }
-        public static bool operator >(Journal journal1, Journal journal2)
+        public static bool operator >(Store store1, Store store2)
         {
-            if (ReferenceEquals(journal1, null) || ReferenceEquals(journal2, null))
+            if (ReferenceEquals(store1, null) || ReferenceEquals(store2, null))
                 throw new ArgumentNullException("Обидва об'єкти мають бути непустими.");
 
-            return journal1.EmployeesCount > journal2.EmployeesCount;
+            return store1.Area > store2.Area;
         }
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
                 return false;
 
-            Journal otherJournal = (Journal)obj;
-            return this.EmployeesCount == otherJournal.EmployeesCount;
+            Store otherStore = (Store)obj;
+            return this.Area == otherStore.Area;
         }
         public override int GetHashCode()
         {
-            return EmployeesCount.GetHashCode();
+            return Area.GetHashCode();
         }
         public override string ToString()
         {
-            return $"Кількість працівників: {EmployeesCount}";
+            return $"Площа магазину: {Area} кв.м.";
         }
     }
 
@@ -85,17 +85,18 @@ namespace ConsoleApp8
         {
             try
             {
-                Journal journal1 = new Journal(10);
-                Journal journal2 = new Journal(15);
-                var journal3 = journal1 + 5;
-                Console.WriteLine(journal3);
-                var journal4 = journal2 - 3;
-                Console.WriteLine(journal4); 
-                Console.WriteLine(journal1 == journal2);
-                Console.WriteLine(journal1 != journal2);
-                Console.WriteLine(journal1 < journal2);
-                Console.WriteLine(journal1 > journal2);
-                Console.WriteLine(journal1.Equals(journal2));
+                Store store1 = new Store(100); 
+                Store store2 = new Store(150);  
+                var store3 = store1 + 20;
+                Console.WriteLine(store3); 
+                var store4 = store2 - 30;
+                Console.WriteLine(store4); 
+                Console.WriteLine(store1 == store2);
+                Console.WriteLine(store1 != store2);
+
+                Console.WriteLine(store1 < store2); 
+                Console.WriteLine(store1 > store2); 
+                Console.WriteLine(store1.Equals(store2));
             }
             catch (Exception ex)
             {
